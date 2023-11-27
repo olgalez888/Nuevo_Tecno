@@ -1,0 +1,63 @@
+import pandas as pd
+info_vehiculos = pd.read_csv('/content/drive/MyDrive/BaseDatosFasecoldaNew.csv',sep=";",encoding = "ISO-8859-1")
+info_vehiculos.info()
+info_vehiculos.head(10)
+info_vehiculos.tail(10)
+list(info_vehiculos['Clase'].drop_duplicates().tail(10))
+list(info_vehiculos['Nacionalidad'].drop_duplicates())
+list(info_vehiculos['Marca'].drop_duplicates().tail(10))
+
+clase =['AUTOMOVIL',
+'CAMIONETA PASAJ.',
+'MOTOCICLETA',
+'BUS / BUSETA / MICROBUS',
+'REMOLCADOR',
+'CARROTANQUE',
+'CAMION',
+'VOLQUETA',
+'CUATRIMOTO'
+ ]
+ 
+clase
+ 
+info_clase=info_vehiculos['Clase'].isin(clase)
+datos_clase=info_vehiculos[info_clase]
+datos_clase
+datos_clase.shape
+datos_clase.index=range(datos_clase.shape[0])
+datos_clase.head(30)
+
+sel_automovil=datos_clase['Clase']=="AUTOMOVIL"
+cant_automovil=datos_clase[sel_automovil].shape[0]
+cant_automovil
+
+sel_otros_automovil=datos_clase['Clase']=="AUTOMOVIL"
+cant_otras=datos_clase[~sel_otros_automovil].shape[0]
+cant_otras
+
+cant_automovil_automatico_particular=((datos_clase['Clase']=="AUTOMOVIL") | (datos_clase['Clase']=="CAMION")) & (datos_clase['Servicio']=="Publico") & (datos_clase['TipoCaja']=="AT")
+cant_automovil_automatico=datos_clase[cant_automovil_automatico_particular].shape[0]
+cant_automovil_automatico
+
+sel_cilindraje=(datos_clase['Cilindraje']>=1800) & (datos_clase['Cilindraje']<=2000)
+cant_cilindraje=datos_clase[sel_cilindraje].shape[0]
+cant_cilindraje
+
+sel_cilindraje_puertas=(datos_clase['Cilindraje']>=1800) & (datos_clase['Cilindraje']<=2000) & (datos_clase['Puertas']==2)
+cant_cilindraje_puertas=datos_clase[sel_cilindraje_puertas].shape[0]
+cant_cilindraje_puertas
+
+print("Se encontraron los sgtes resultados:")
+print(f"La cantidad de automoviles es de: {cant_automovil}")
+print(f"La cantidad de otras clases de vehiculos es de: {cant_otras}")
+print(f"La cantidad de automoviles o camiones publicos automáticos es de: {cant_automovil_automatico}")
+print(f"La cantidad de vehiculos con cilidraje entre 1800 y 2000 es de: {cant_cilindraje}")
+print(f"La cantidad de vehiculos cilidraje entre 1800 y 2000 y solo 2 puertas: {cant_cilindraje_puertas}")
+
+datos_clase.isnull()
+
+datos_clase.info()
+
+datos_clase.to_csv('ProyMom3.csv',sep=";",encoding = "ISO-8859-1")
+
+
